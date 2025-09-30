@@ -46,7 +46,7 @@ export const Header = () => {
             </Link>
           ))}
           <Button asChild variant="hero" size="sm">
-            <Link to="/contact">Join MUMBSO</Link>
+            <Link to="/join">Join MUMBSO</Link>
           </Button>
         </div>
 
@@ -77,7 +77,7 @@ export const Header = () => {
               </Link>
             ))}
             <Button asChild variant="hero" size="sm" className="w-full">
-              <Link to="/contact" onClick={() => setIsOpen(false)}>
+              <Link to="/join" onClick={() => setIsOpen(false)}>
                 Join MUMBSO
               </Link>
             </Button>

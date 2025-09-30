@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      community_members: {
+        Row: {
+          course: string | null
+          email: string
+          id: string
+          interests: string | null
+          joined_at: string | null
+          name: string
+          phone: string | null
+          year_of_study: string | null
+        }
+        Insert: {
+          course?: string | null
+          email: string
+          id?: string
+          interests?: string | null
+          joined_at?: string | null
+          name: string
+          phone?: string | null
+          year_of_study?: string | null
+        }
+        Update: {
+          course?: string | null
+          email?: string
+          id?: string
+          interests?: string | null
+          joined_at?: string | null
+          name?: string
+          phone?: string | null
+          year_of_study?: string | null
+        }
+        Relationships: []
+      }
       contact_submissions: {
         Row: {
           created_at: string | null
