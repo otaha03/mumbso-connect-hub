@@ -2,6 +2,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Target, Eye, Heart, Users, Award, Lightbulb } from "lucide-react";
+import aboutBg from "@/assets/about-bg.jpg";
 
 const About = () => {
   return (
@@ -9,12 +10,20 @@ const About = () => {
       <Header />
 
       {/* Page Header */}
-      <section className="py-20 bg-gradient-hero text-white">
-        <div className="container text-center">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src={aboutBg}
+            alt="DNA research and biotechnology team"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/85 to-primary/75" />
+        </div>
+        <div className="container text-center relative z-10">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6 text-white">
             About MUMBSO
           </h1>
-          <p className="text-xl text-white/90 max-w-3xl mx-auto">
+          <p className="text-xl text-white/95 max-w-3xl mx-auto">
             The official student organization connecting Medical Biotechnology and Information Technology at Maseno University
           </p>
         </div>

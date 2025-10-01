@@ -3,14 +3,23 @@ import { Footer } from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText, Download } from "lucide-react";
+import resourcesBg from "@/assets/resources-bg.jpg";
 
 const Resources = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <section className="py-20 bg-gradient-accent text-white">
-        <div className="container text-center">
-          <h1 className="text-4xl font-bold mb-6">Student Resources</h1>
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src={resourcesBg}
+            alt="Digital biotechnology resources library"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-accent/95 via-accent/85 to-accent/75" />
+        </div>
+        <div className="container text-center relative z-10">
+          <h1 className="text-4xl font-bold mb-6 text-white">Student Resources</h1>
         </div>
       </section>
       <section className="py-20">

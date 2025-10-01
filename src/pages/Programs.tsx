@@ -3,6 +3,7 @@ import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dna, Brain, Microscope, ShieldCheck, Users, Laptop } from "lucide-react";
 import genomicsImage from "@/assets/genomics.jpg";
+import programsBg from "@/assets/programs-bg.jpg";
 
 const Programs = () => {
   const programs = [
@@ -79,12 +80,20 @@ const Programs = () => {
       <Header />
 
       {/* Page Header */}
-      <section className="py-20 bg-gradient-accent text-white">
-        <div className="container text-center">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src={programsBg}
+            alt="Biotechnology training programs"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-accent/95 via-accent/85 to-accent/75" />
+        </div>
+        <div className="container text-center relative z-10">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6 text-white">
             Programs & Activities
           </h1>
-          <p className="text-xl text-white/90 max-w-3xl mx-auto">
+          <p className="text-xl text-white/95 max-w-3xl mx-auto">
             Comprehensive training programs designed to equip students with cutting-edge skills in medical biotechnology and information technology
           </p>
         </div>

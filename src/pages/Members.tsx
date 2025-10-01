@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Users } from "lucide-react";
+import membersBg from "@/assets/members-bg.jpg";
 
 const Members = () => {
   const { data: leadership } = useQuery({
@@ -25,10 +26,18 @@ const Members = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <section className="py-20 bg-gradient-secondary text-white">
-        <div className="container text-center">
-          <h1 className="text-4xl font-bold mb-6">Our Team</h1>
-          <p className="text-xl text-white/90">Meet the MUMBSO family</p>
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src={membersBg}
+            alt="MUMBSO team collaboration"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-secondary/95 via-secondary/85 to-secondary/75" />
+        </div>
+        <div className="container text-center relative z-10">
+          <h1 className="text-4xl font-bold mb-6 text-white">Our Team</h1>
+          <p className="text-xl text-white/95">Meet the MUMBSO family</p>
         </div>
       </section>
       

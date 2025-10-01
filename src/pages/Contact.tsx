@@ -8,6 +8,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import contactBg from "@/assets/contact-bg.jpg";
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
@@ -33,10 +34,18 @@ const Contact = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <section className="py-20 bg-gradient-accent text-white">
-        <div className="container text-center">
-          <h1 className="text-4xl font-bold mb-6">Contact Us</h1>
-          <p className="text-xl text-white/90 max-w-2xl mx-auto">Get in touch with MUMBSO</p>
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src={contactBg}
+            alt="Biotechnology communication center"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-accent/95 via-accent/85 to-accent/75" />
+        </div>
+        <div className="container text-center relative z-10">
+          <h1 className="text-4xl font-bold mb-6 text-white">Contact Us</h1>
+          <p className="text-xl text-white/95 max-w-2xl mx-auto">Get in touch with MUMBSO</p>
         </div>
       </section>
 

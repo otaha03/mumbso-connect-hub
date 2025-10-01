@@ -6,6 +6,7 @@ import { Calendar, MapPin, Clock } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
+import eventsBg from "@/assets/events-bg.jpg";
 
 const Events = () => {
   const { data: events } = useQuery({
@@ -23,12 +24,20 @@ const Events = () => {
     <div className="min-h-screen bg-background">
       <Header />
 
-      <section className="py-20 bg-gradient-hero text-white">
-        <div className="container text-center">
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <img
+            src={eventsBg}
+            alt="Biotechnology conference and events"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/85 to-primary/75" />
+        </div>
+        <div className="container text-center relative z-10">
+          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6 text-white">
             Events & Activities
           </h1>
-          <p className="text-xl text-white/90 max-w-3xl mx-auto">
+          <p className="text-xl text-white/95 max-w-3xl mx-auto">
             Join us for workshops, seminars, and conferences on medical biotechnology
           </p>
         </div>
