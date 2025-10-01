@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useState } from "react";
+import joinBg from "@/assets/join-bg.jpg";
 
 const Join = () => {
   const { toast } = useToast();
@@ -66,14 +67,32 @@ const Join = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <section className="py-20 bg-gradient-secondary text-white">
-        <div className="container text-center">
-          <h1 className="text-4xl font-bold mb-6">Join MUMBSO</h1>
-          <p className="text-xl text-white/90">Become part of our biotechnology community</p>
+      <section className="relative py-20 overflow-hidden">
+        {/* Background Image with Overlay */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={joinBg}
+            alt="Medical Biotechnology Research Laboratory"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/85 to-primary/75" />
+        </div>
+        
+        {/* Content */}
+        <div className="container text-center relative z-10">
+          <h1 className="text-4xl font-bold mb-6 text-white">Join MUMBSO</h1>
+          <p className="text-xl text-white/95">Become part of our biotechnology community</p>
         </div>
       </section>
-      <section className="py-20">
-        <div className="container max-w-2xl">
+      <section className="py-20 relative overflow-hidden">
+        {/* Subtle background pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute inset-0" style={{
+            backgroundImage: 'radial-gradient(circle at 2px 2px, hsl(var(--primary)) 1px, transparent 0)',
+            backgroundSize: '40px 40px'
+          }} />
+        </div>
+        <div className="container max-w-2xl relative z-10">
           <div className="bg-card rounded-lg shadow-lg p-8">
             <h2 className="text-2xl font-bold mb-6">Membership Application</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
