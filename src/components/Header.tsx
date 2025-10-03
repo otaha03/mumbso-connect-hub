@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -45,8 +46,8 @@ export const Header = () => {
               {item.label}
             </Link>
           ))}
-          <Button asChild variant="hero" size="sm">
-            <Link to="/join">Join MUMBSO</Link>
+          <Button variant="hero" size="sm" onClick={() => navigate("/join")}>
+            Join MUMBSO
           </Button>
         </div>
 
@@ -76,10 +77,16 @@ export const Header = () => {
                 {item.label}
               </Link>
             ))}
-            <Button asChild variant="hero" size="sm" className="w-full">
-              <Link to="/join" onClick={() => setIsOpen(false)}>
-                Join MUMBSO
-              </Link>
+            <Button 
+              variant="hero" 
+              size="sm" 
+              className="w-full"
+              onClick={() => {
+                setIsOpen(false);
+                navigate("/join");
+              }}
+            >
+              Join MUMBSO
             </Button>
           </div>
         </div>
