@@ -31,7 +31,7 @@ export const Hero = () => {
           </p>
           <div className="flex flex-wrap gap-4">
             <Button asChild variant="hero" size="xl">
-              <Link to="/contact">Join MUMBSO</Link>
+              <Link to="/join">Join MUMBSO</Link>
             </Button>
             <Button asChild variant="secondary" size="xl">
               <Link to="/events">Upcoming Events</Link>
