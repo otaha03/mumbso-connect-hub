@@ -3,10 +3,14 @@ import { Footer } from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Users } from "lucide-react";
+import { Users, Mail, Phone } from "lucide-react";
 import membersBg from "@/assets/members-bg.jpg";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
+import { Badge } from "@/components/ui/badge";
 
 const Members = () => {
+  const { isAdmin, isLoading: isAdminLoading } = useIsAdmin();
+
   const { data: leadership } = useQuery({
     queryKey: ["members"],
     queryFn: async () => {
@@ -16,11 +20,21 @@ const Members = () => {
   });
 
   const { data: community } = useQuery({
-    queryKey: ["community_members"],
+    queryKey: ["community_members", isAdmin],
     queryFn: async () => {
-      const { data } = await supabase.from("community_members").select("*").order("joined_at", { ascending: false });
+      // Only select email and phone for admins
+      const columns = isAdmin 
+        ? "*" 
+        : "id, name, course, year_of_study, interests, joined_at";
+      
+      const { data } = await supabase
+        .from("community_members")
+        .select(columns)
+        .order("joined_at", { ascending: false });
+      
       return data || [];
     },
+    enabled: !isAdminLoading,
   });
 
   return (
@@ -68,21 +82,53 @@ const Members = () => {
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold mb-4">Community Members</h2>
             <p className="text-muted-foreground">Our growing community of biotechnology enthusiasts</p>
+            {isAdmin && (
+              <Badge variant="secondary" className="mt-2">
+                Admin View - Contact Info Visible
+              </Badge>
+            )}
           </div>
-          <div className="grid gap-4 md:grid-cols-4 lg:grid-cols-5">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {community?.map((m: any) => (
               <Card key={m.id} className="hover:shadow-md transition-shadow">
-                <CardContent className="p-4 text-center">
-                  <div className="w-16 h-16 mx-auto mb-3 bg-gradient-primary rounded-full flex items-center justify-center text-white text-xl font-bold">
-                    {m.name.charAt(0)}
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center text-white text-xl font-bold flex-shrink-0">
+                      {m.name.charAt(0)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h4 className="font-semibold text-base">{m.name}</h4>
+                      {m.year_of_study && (
+                        <p className="text-sm text-primary">{m.year_of_study}</p>
+                      )}
+                      {m.course && (
+                        <p className="text-sm text-muted-foreground mt-1">{m.course}</p>
+                      )}
+                      {m.interests && (
+                        <p className="text-xs text-muted-foreground mt-2 italic">
+                          {m.interests}
+                        </p>
+                      )}
+                      {isAdmin && m.email && (
+                        <div className="mt-3 space-y-1">
+                          <div className="flex items-center gap-2 text-xs">
+                            <Mail className="w-3 h-3 text-primary" />
+                            <a href={`mailto:${m.email}`} className="hover:underline">
+                              {m.email}
+                            </a>
+                          </div>
+                          {m.phone && (
+                            <div className="flex items-center gap-2 text-xs">
+                              <Phone className="w-3 h-3 text-primary" />
+                              <a href={`tel:${m.phone}`} className="hover:underline">
+                                {m.phone}
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  <h4 className="font-semibold text-sm">{m.name}</h4>
-                  {m.year_of_study && (
-                    <p className="text-xs text-primary">{m.year_of_study}</p>
-                  )}
-                  {m.course && (
-                    <p className="text-xs text-muted-foreground mt-1">{m.course}</p>
-                  )}
                 </CardContent>
               </Card>
             ))}
