@@ -3,12 +3,17 @@ import { Footer } from "@/components/Footer";
 import { Card, CardContent } from "@/components/ui/card";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { Users, Mail, Phone } from "lucide-react";
+import { Users, Mail, Phone, Lock } from "lucide-react";
 import membersBg from "@/assets/members-bg.jpg";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
+import { useAuth } from "@/hooks/useAuth";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const Members = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const { isAdmin, isLoading: isAdminLoading } = useIsAdmin();
 
   const { data: leadership } = useQuery({
@@ -34,7 +39,7 @@ const Members = () => {
       
       return data || [];
     },
-    enabled: !isAdminLoading,
+    enabled: !isAdminLoading && !!user, // Only fetch if user is authenticated
   });
 
   return (
@@ -88,56 +93,74 @@ const Members = () => {
               </Badge>
             )}
           </div>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {community?.map((m: any) => (
-              <Card key={m.id} className="hover:shadow-md transition-shadow">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center text-white text-xl font-bold flex-shrink-0">
-                      {m.name.charAt(0)}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-semibold text-base">{m.name}</h4>
-                      {m.year_of_study && (
-                        <p className="text-sm text-primary">{m.year_of_study}</p>
-                      )}
-                      {m.course && (
-                        <p className="text-sm text-muted-foreground mt-1">{m.course}</p>
-                      )}
-                      {m.interests && (
-                        <p className="text-xs text-muted-foreground mt-2 italic">
-                          {m.interests}
-                        </p>
-                      )}
-                      {isAdmin && m.email && (
-                        <div className="mt-3 space-y-1">
-                          <div className="flex items-center gap-2 text-xs">
-                            <Mail className="w-3 h-3 text-primary" />
-                            <a href={`mailto:${m.email}`} className="hover:underline">
-                              {m.email}
-                            </a>
-                          </div>
-                          {m.phone && (
-                            <div className="flex items-center gap-2 text-xs">
-                              <Phone className="w-3 h-3 text-primary" />
-                              <a href={`tel:${m.phone}`} className="hover:underline">
-                                {m.phone}
-                              </a>
+          
+          {!user ? (
+            // Not authenticated - show sign in prompt
+            <div className="text-center py-12">
+              <Lock className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+              <h3 className="text-xl font-semibold mb-2">Member Directory is Protected</h3>
+              <p className="text-muted-foreground mb-6">
+                Sign in to view our community members and connect with fellow biotechnology enthusiasts
+              </p>
+              <Button onClick={() => navigate("/auth")}>
+                Sign In to View Members
+              </Button>
+            </div>
+          ) : (
+            // Authenticated - show members
+            <>
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {community?.map((m: any) => (
+                  <Card key={m.id} className="hover:shadow-md transition-shadow">
+                    <CardContent className="p-6">
+                      <div className="flex items-start gap-4">
+                        <div className="w-16 h-16 bg-gradient-primary rounded-full flex items-center justify-center text-white text-xl font-bold flex-shrink-0">
+                          {m.name.charAt(0)}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-semibold text-base">{m.name}</h4>
+                          {m.year_of_study && (
+                            <p className="text-sm text-primary">{m.year_of_study}</p>
+                          )}
+                          {m.course && (
+                            <p className="text-sm text-muted-foreground mt-1">{m.course}</p>
+                          )}
+                          {m.interests && (
+                            <p className="text-xs text-muted-foreground mt-2 italic">
+                              {m.interests}
+                            </p>
+                          )}
+                          {isAdmin && m.email && (
+                            <div className="mt-3 space-y-1">
+                              <div className="flex items-center gap-2 text-xs">
+                                <Mail className="w-3 h-3 text-primary" />
+                                <a href={`mailto:${m.email}`} className="hover:underline">
+                                  {m.email}
+                                </a>
+                              </div>
+                              {m.phone && (
+                                <div className="flex items-center gap-2 text-xs">
+                                  <Phone className="w-3 h-3 text-primary" />
+                                  <a href={`tel:${m.phone}`} className="hover:underline">
+                                    {m.phone}
+                                  </a>
+                                </div>
+                              )}
                             </div>
                           )}
                         </div>
-                      )}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-          {(!community || community.length === 0) && (
-            <div className="text-center py-12">
-              <Users className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-              <p className="text-muted-foreground">No community members yet. Be the first to join!</p>
-            </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+              {(!community || community.length === 0) && (
+                <div className="text-center py-12">
+                  <Users className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
+                  <p className="text-muted-foreground">No community members yet. Be the first to join!</p>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>
