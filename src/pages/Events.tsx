@@ -7,8 +7,12 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
 import eventsBg from "@/assets/events-bg.jpg";
+import seminarBanner from "@/assets/seminar-banner.jpg";
+import { SendEventNotification } from "@/components/SendEventNotification";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 
 const Events = () => {
+  const { isAdmin } = useIsAdmin();
   const { data: events } = useQuery({
     queryKey: ["events"],
     queryFn: async () => {
@@ -46,30 +50,47 @@ const Events = () => {
       <section className="py-20">
         <div className="container">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {events?.map((event: any) => (
-              <Card key={event.id} className="border-2 hover:shadow-card transition-all">
-                <CardContent className="p-6">
-                  <div className="mb-3 inline-block rounded-full bg-primary/10 px-3 py-1">
-                    <span className="text-sm font-medium text-primary">{event.event_type}</span>
-                  </div>
-                  <h3 className="text-xl font-bold mb-3">{event.title}</h3>
-                  <p className="text-muted-foreground mb-4">{event.description}</p>
-                  <div className="space-y-2 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="h-4 w-4" />
-                      <span>{format(new Date(event.event_date), "PPP")}</span>
+            {events?.map((event: any) => {
+              const isSeminar = event.title?.includes("Joint Seminar");
+              return (
+                <Card key={event.id} className="border-2 hover:shadow-card transition-all overflow-hidden">
+                  {isSeminar && (
+                    <div className="w-full">
+                      <img 
+                        src={seminarBanner} 
+                        alt="Joint Seminar on Research Skills and Career Development"
+                        className="w-full h-48 object-cover"
+                      />
                     </div>
-                    {event.location && (
-                      <div className="flex items-center gap-2">
-                        <MapPin className="h-4 w-4" />
-                        <span>{event.location}</span>
+                  )}
+                  <CardContent className="p-6">
+                    <div className="mb-3 flex items-center justify-between">
+                      <div className="inline-block rounded-full bg-primary/10 px-3 py-1">
+                        <span className="text-sm font-medium text-primary">{event.event_type}</span>
                       </div>
-                    )}
-                  </div>
-                  <Button className="w-full mt-4" variant="hero">Register</Button>
-                </CardContent>
-              </Card>
-            ))}
+                      {isAdmin && isSeminar && (
+                        <SendEventNotification eventId={event.id} eventTitle={event.title} />
+                      )}
+                    </div>
+                    <h3 className="text-xl font-bold mb-3">{event.title}</h3>
+                    <p className="text-muted-foreground mb-4">{event.description}</p>
+                    <div className="space-y-2 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="h-4 w-4" />
+                        <span>{format(new Date(event.event_date), "PPP")}</span>
+                      </div>
+                      {event.location && (
+                        <div className="flex items-center gap-2">
+                          <MapPin className="h-4 w-4" />
+                          <span>{event.location}</span>
+                        </div>
+                      )}
+                    </div>
+                    <Button className="w-full mt-4" variant="hero">Register</Button>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         </div>
       </section>
