@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, LogOut, User } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,6 +26,7 @@ export const Header = () => {
     { path: "/research", label: "Research" },
     { path: "/events", label: "Events" },
     { path: "/members", label: "Members" },
+    { path: "/blog", label: "Blog" },
     { path: "/resources", label: "Resources" },
     { path: "/news", label: "News" },
     { path: "/gallery", label: "Gallery" },
@@ -54,6 +56,7 @@ export const Header = () => {
               {item.label}
             </Link>
           ))}
+          <DarkModeToggle />
           <Button variant="hero" size="sm" onClick={() => navigate("/join")}>
             Join MUMBSO
           </Button>
@@ -66,6 +69,10 @@ export const Header = () => {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => navigate("/dashboard")}>
+                  <User className="h-4 w-4 mr-2" />
+                  Dashboard
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => signOut()}>
                   <LogOut className="h-4 w-4 mr-2" />
                   Sign Out
@@ -105,6 +112,10 @@ export const Header = () => {
                 {item.label}
               </Link>
             ))}
+            <div className="flex items-center justify-between px-3 py-2">
+              <span className="text-sm font-medium">Theme</span>
+              <DarkModeToggle />
+            </div>
             <Button 
               variant="hero" 
               size="sm" 
@@ -117,18 +128,32 @@ export const Header = () => {
               Join MUMBSO
             </Button>
             {user ? (
-              <Button 
-                variant="outline" 
-                size="sm" 
-                className="w-full"
-                onClick={() => {
-                  setIsOpen(false);
-                  signOut();
-                }}
-              >
-                <LogOut className="h-4 w-4 mr-2" />
-                Sign Out
-              </Button>
+              <>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full"
+                  onClick={() => {
+                    setIsOpen(false);
+                    navigate("/dashboard");
+                  }}
+                >
+                  <User className="h-4 w-4 mr-2" />
+                  Dashboard
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full"
+                  onClick={() => {
+                    setIsOpen(false);
+                    signOut();
+                  }}
+                >
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Sign Out
+                </Button>
+              </>
             ) : (
               <Button 
                 variant="outline" 

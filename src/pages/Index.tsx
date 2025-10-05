@@ -1,6 +1,8 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Hero } from "@/components/Hero";
+import { SEO } from "@/components/SEO";
+import { Testimonials } from "@/components/Testimonials";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
@@ -44,9 +46,11 @@ const Index = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      <Hero />
+    <>
+      <SEO />
+      <div className="min-h-screen bg-background">
+        <Header />
+        <Hero />
 
       {/* Features Section */}
       <section className="py-20 bg-gradient-subtle">
@@ -134,6 +138,9 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Testimonials */}
+      <Testimonials />
+
       {/* Newsletter */}
       <section className="py-20 bg-gradient-hero">
         <div className="container text-center">
@@ -151,6 +158,7 @@ const Index = () => {
 
       <Footer />
     </div>
+    </>
   );
 };
 

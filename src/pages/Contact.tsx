@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +10,13 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import contactBg from "@/assets/contact-bg.jpg";
+import { z } from "zod";
+
+const contactSchema = z.object({
+  name: z.string().trim().min(1, "Name is required").max(100),
+  email: z.string().trim().email("Invalid email address").max(255),
+  message: z.string().trim().min(1, "Message is required").max(1000)
+});
 
 const Contact = () => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
@@ -17,6 +25,17 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const validation = contactSchema.safeParse(formData);
+    if (!validation.success) {
+      toast({ 
+        title: "Validation Error", 
+        description: validation.error.errors[0].message, 
+        variant: "destructive" 
+      });
+      return;
+    }
+    
     setIsLoading(true);
     
     try {
@@ -31,7 +50,13 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <>
+      <SEO
+        title="Contact Us - Get in Touch"
+        description="Contact MUMBSO for inquiries about membership, events, research collaborations, or general questions. Located at Maseno University, Kenya."
+        keywords="contact MUMBSO, Maseno University, biotech inquiries, student organization contact"
+      />
+      <div className="min-h-screen bg-background">
       <Header />
 
       <section className="relative py-20 overflow-hidden">
@@ -88,6 +113,7 @@ const Contact = () => {
 
       <Footer />
     </div>
+    </>
   );
 };
 

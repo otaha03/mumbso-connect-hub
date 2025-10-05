@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import galleryBg from "@/assets/gallery-bg.jpg";
@@ -20,7 +21,13 @@ const Gallery = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <>
+      <SEO
+        title="Photo Gallery - MUMBSO Events & Activities"
+        description="Browse photos from MUMBSO workshops, labs, outreach events, conferences, and student activities. See our community impact through images."
+        keywords="MUMBSO photos, biotech events, lab workshops, student activities, community outreach"
+      />
+      <div className="min-h-screen bg-background">
       <Header />
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -68,6 +75,7 @@ const Gallery = () => {
       </section>
       <Footer />
     </div>
+    </>
   );
 };
 

@@ -1,11 +1,18 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { EventCalendar } from "@/components/EventCalendar";
 import eventsBg from "@/assets/events-bg.jpg";
 
 const Events = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <>
+      <SEO
+        title="Events - Workshops, Seminars & Conferences"
+        description="Join MUMBSO events including biotech workshops, research seminars, conferences, and networking opportunities. Register for upcoming events."
+        keywords="biotech events, workshops, seminars, conferences, MUMBSO activities, student events"
+      />
+      <div className="min-h-screen bg-background">
       <Header />
 
       <section className="relative py-20 overflow-hidden">
@@ -35,6 +42,7 @@ const Events = () => {
 
       <Footer />
     </div>
+    </>
   );
 };
 

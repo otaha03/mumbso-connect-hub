@@ -1,12 +1,19 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { Card, CardContent } from "@/components/ui/card";
 import { Target, Eye, Heart, Users, Award, Lightbulb } from "lucide-react";
 import aboutBg from "@/assets/about-bg.jpg";
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <>
+      <SEO
+        title="About Us - Mission, Vision & Values"
+        description="Learn about MUMBSO's mission to empower Medical Biotechnology students through research, education, and innovation at Maseno University."
+        keywords="about MUMBSO, biotech student organization, Maseno University, mission, vision, values"
+      />
+      <div className="min-h-screen bg-background">
       <Header />
 
       {/* Page Header */}
@@ -200,6 +207,7 @@ const About = () => {
 
       <Footer />
     </div>
+    </>
   );
 };
 
