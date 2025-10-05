@@ -71,6 +71,38 @@ export type Database = {
         }
         Relationships: []
       }
+      event_registrations: {
+        Row: {
+          event_id: string
+          id: string
+          registered_at: string
+          user_email: string
+          user_name: string
+        }
+        Insert: {
+          event_id: string
+          id?: string
+          registered_at?: string
+          user_email: string
+          user_name: string
+        }
+        Update: {
+          event_id?: string
+          id?: string
+          registered_at?: string
+          user_email?: string
+          user_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_registrations_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       events: {
         Row: {
           created_at: string | null
@@ -221,6 +253,45 @@ export type Database = {
           email?: string | null
           id?: string
           updated_at?: string | null
+        }
+        Relationships: []
+      }
+      research_publications: {
+        Row: {
+          author_names: string
+          category: string | null
+          created_at: string
+          description: string | null
+          featured: boolean | null
+          id: string
+          publication_date: string | null
+          publication_url: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          author_names: string
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          featured?: boolean | null
+          id?: string
+          publication_date?: string | null
+          publication_url?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          author_names?: string
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          featured?: boolean | null
+          id?: string
+          publication_date?: string | null
+          publication_url?: string | null
+          title?: string
+          updated_at?: string
         }
         Relationships: []
       }
