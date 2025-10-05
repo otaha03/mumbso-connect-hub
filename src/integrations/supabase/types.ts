@@ -232,6 +232,86 @@ export type Database = {
         }
         Relationships: []
       }
+      membership_tiers: {
+        Row: {
+          active: boolean | null
+          benefits: Json | null
+          created_at: string
+          description: string | null
+          duration_months: number
+          id: string
+          name: string
+          price: number
+        }
+        Insert: {
+          active?: boolean | null
+          benefits?: Json | null
+          created_at?: string
+          description?: string | null
+          duration_months?: number
+          id?: string
+          name: string
+          price: number
+        }
+        Update: {
+          active?: boolean | null
+          benefits?: Json | null
+          created_at?: string
+          description?: string | null
+          duration_months?: number
+          id?: string
+          name?: string
+          price?: number
+        }
+        Relationships: []
+      }
+      memberships: {
+        Row: {
+          created_at: string
+          end_date: string | null
+          id: string
+          membership_number: string | null
+          qr_code: string | null
+          start_date: string | null
+          status: string
+          tier_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          membership_number?: string | null
+          qr_code?: string | null
+          start_date?: string | null
+          status?: string
+          tier_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          end_date?: string | null
+          id?: string
+          membership_number?: string | null
+          qr_code?: string | null
+          start_date?: string | null
+          status?: string
+          tier_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "memberships_tier_id_fkey"
+            columns: ["tier_id"]
+            isOneToOne: false
+            referencedRelation: "membership_tiers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       news: {
         Row: {
           category: string | null
@@ -279,6 +359,59 @@ export type Database = {
           id?: string
         }
         Relationships: []
+      }
+      payments: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string
+          id: string
+          membership_id: string
+          metadata: Json | null
+          payment_method: string
+          payment_status: string
+          receipt_url: string | null
+          transaction_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          currency?: string
+          id?: string
+          membership_id: string
+          metadata?: Json | null
+          payment_method: string
+          payment_status?: string
+          receipt_url?: string | null
+          transaction_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          membership_id?: string
+          metadata?: Json | null
+          payment_method?: string
+          payment_status?: string
+          receipt_url?: string | null
+          transaction_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_membership_id_fkey"
+            columns: ["membership_id"]
+            isOneToOne: false
+            referencedRelation: "memberships"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       profiles: {
         Row: {
@@ -399,6 +532,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_membership_number: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
