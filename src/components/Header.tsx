@@ -10,6 +10,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import mumbsoLogo from "@/assets/mumbso-logo.jpg";
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,9 +38,11 @@ export const Header = () => {
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <nav className="container flex h-16 items-center justify-between">
         <Link to="/" className="flex items-center space-x-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-hero">
-            <span className="text-xl font-bold text-white">M</span>
-          </div>
+          <img 
+            src={mumbsoLogo} 
+            alt="MUMBSO Logo" 
+            className="h-12 w-12 object-contain"
+          />
           <span className="hidden font-bold sm:inline-block">MUMBSO</span>
         </Link>
 
