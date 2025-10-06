@@ -11,7 +11,7 @@ import Events from "./pages/Events";
 import Contact from "./pages/Contact";
 import Research from "./pages/Research";
 import Members from "./pages/Members";
-import Resources from "./pages/Resources";
+import Constitution from "./pages/Constitution";
 import News from "./pages/News";
 import Gallery from "./pages/Gallery";
 import Join from "./pages/Join";
@@ -37,7 +37,7 @@ const App = () => (
             <Route path="/research" element={<Research />} />
             <Route path="/events" element={<Events />} />
             <Route path="/members" element={<Members />} />
-            <Route path="/resources" element={<Resources />} />
+            <Route path="/constitution" element={<Constitution />} />
             <Route path="/news" element={<News />} />
             <Route path="/gallery" element={<Gallery />} />
             <Route path="/contact" element={<Contact />} />

@@ -51,8 +51,8 @@ export const Footer = () => {
             <h3 className="mb-4 text-sm font-semibold">Resources</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link to="/resources" className="text-muted-foreground hover:text-primary transition-colors">
-                  Student Resources
+                <Link to="/constitution" className="text-muted-foreground hover:text-primary transition-colors">
+                  Constitution
                 </Link>
               </li>
               <li>
