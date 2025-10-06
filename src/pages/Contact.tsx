@@ -96,7 +96,7 @@ const Contact = () => {
                 <CardContent className="p-6">
                   <Mail className="h-8 w-8 text-primary mb-3" />
                   <h3 className="font-semibold mb-1">Email</h3>
-                  <p className="text-muted-foreground">mumbso@maseno.ac.ke</p>
+                  <p className="text-muted-foreground">masenomedicalbiotechnologists@gmail.com</p>
                 </CardContent>
               </Card>
               <Card>
