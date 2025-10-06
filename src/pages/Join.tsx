@@ -5,14 +5,23 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Card } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { Check, Loader2 } from "lucide-react";
 import joinBg from "@/assets/join-bg.jpg";
+import { SEO } from "@/components/SEO";
 
 const Join = () => {
   const { toast } = useToast();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedTier, setSelectedTier] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -22,41 +31,74 @@ const Join = () => {
     interests: "",
   });
 
+  // Fetch membership tiers
+  const { data: tiers, isLoading: tiersLoading } = useQuery({
+    queryKey: ["membership-tiers"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("membership_tiers")
+        .select("*")
+        .eq("active", true)
+        .order("price", { ascending: true });
+      
+      if (error) throw error;
+      return data;
+    },
+  });
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!user) {
+      toast({
+        title: "Please log in",
+        description: "You need to be logged in to join as a paid member",
+        variant: "destructive",
+      });
+      navigate("/auth");
+      return;
+    }
+
+    if (!selectedTier) {
+      toast({
+        title: "Select a membership tier",
+        description: "Please choose a membership tier to continue",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      const { error } = await supabase.from("community_members").insert([formData]);
+      // First add to community members
+      const { error: communityError } = await supabase
+        .from("community_members")
+        .insert([{ ...formData, email: user.email }]);
 
-      if (error) {
-        if (error.code === "23505") {
-          toast({
-            title: "Already a member",
-            description: "This email is already registered as a member.",
-            variant: "destructive",
-          });
-        } else {
-          throw error;
-        }
-      } else {
+      if (communityError && communityError.code !== "23505") {
+        throw communityError;
+      }
+
+      // Create Stripe checkout session
+      const { data, error } = await supabase.functions.invoke("create-checkout", {
+        body: { tierId: selectedTier },
+      });
+
+      if (error) throw error;
+
+      if (data.url) {
+        window.open(data.url, "_blank");
         toast({
-          title: "Welcome to MUMBSO!",
-          description: "You have successfully joined our community.",
-        });
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          year_of_study: "",
-          course: "",
-          interests: "",
+          title: "Redirecting to checkout",
+          description: "Complete your payment to activate membership",
         });
       }
     } catch (error) {
+      console.error("Checkout error:", error);
       toast({
         title: "Error",
-        description: "Something went wrong. Please try again.",
+        description: "Failed to initiate checkout. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -66,6 +108,10 @@ const Join = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO 
+        title="Join MUMBSO - Medical & Biotechnology Student Organization"
+        description="Become part of our biotechnology community. Access exclusive workshops, research opportunities, and networking events."
+      />
       <Header />
       <section className="relative py-20 overflow-hidden">
         {/* Background Image with Overlay */}
@@ -92,9 +138,52 @@ const Join = () => {
             backgroundSize: '40px 40px'
           }} />
         </div>
-        <div className="container max-w-2xl relative z-10">
+        <div className="container max-w-4xl relative z-10">
+          {/* Membership Tiers */}
+          <div className="mb-12">
+            <h2 className="text-2xl font-bold mb-6 text-center">Choose Your Membership</h2>
+            {tiersLoading ? (
+              <div className="flex justify-center py-8">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              </div>
+            ) : (
+              <div className="grid md:grid-cols-3 gap-6">
+                {tiers?.map((tier) => (
+                  <Card
+                    key={tier.id}
+                    className={`p-6 cursor-pointer transition-all ${
+                      selectedTier === tier.id
+                        ? "ring-2 ring-primary shadow-lg"
+                        : "hover:shadow-md"
+                    }`}
+                    onClick={() => setSelectedTier(tier.id)}
+                  >
+                    <h3 className="text-xl font-bold mb-2">{tier.name}</h3>
+                    <div className="text-3xl font-bold mb-4">
+                      KES {Number(tier.price).toLocaleString()}
+                      <span className="text-sm text-muted-foreground font-normal">
+                        /{tier.duration_months} months
+                      </span>
+                    </div>
+                    <p className="text-muted-foreground mb-4">{tier.description}</p>
+                    {tier.benefits && (
+                      <ul className="space-y-2">
+                        {(tier.benefits as string[]).map((benefit, idx) => (
+                          <li key={idx} className="flex items-start gap-2 text-sm">
+                            <Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                            <span>{benefit}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </Card>
+                ))}
+              </div>
+            )}
+          </div>
+
           <div className="bg-card rounded-lg shadow-lg p-8">
-            <h2 className="text-2xl font-bold mb-6">Membership Application</h2>
+            <h2 className="text-2xl font-bold mb-6">Your Information</h2>
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <Label htmlFor="name">Full Name *</Label>
@@ -172,9 +261,21 @@ const Join = () => {
                 />
               </div>
 
-              <Button type="submit" disabled={isLoading} className="w-full">
-                {isLoading ? "Submitting..." : "Join MUMBSO"}
+              <Button type="submit" disabled={isLoading || !selectedTier} className="w-full">
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  "Proceed to Payment"
+                )}
               </Button>
+              {!user && (
+                <p className="text-sm text-center text-muted-foreground">
+                  You'll be redirected to log in before payment
+                </p>
+              )}
             </form>
           </div>
 
