@@ -15,6 +15,12 @@ import gallery3 from "@/assets/gallery-3.jpg";
 import gallery4 from "@/assets/gallery-4.jpg";
 import gallery5 from "@/assets/gallery-5.jpg";
 import gallery6 from "@/assets/gallery-6.jpg";
+import gallery7 from "@/assets/gallery-7.jpg";
+import gallery8 from "@/assets/gallery-8.jpg";
+import gallery9 from "@/assets/gallery-9.jpg";
+import gallery10 from "@/assets/gallery-10.jpg";
+import gallery11 from "@/assets/gallery-11.jpg";
+import gallery12 from "@/assets/gallery-12.jpg";
 
 const Gallery = () => {
   const galleryImages = [
@@ -24,6 +30,12 @@ const Gallery = () => {
     { src: gallery4, alt: "Certificate award ceremony" },
     { src: gallery5, alt: "Tree planting environmental activity" },
     { src: gallery6, alt: "MUMBSO members in lab coats" },
+    { src: gallery7, alt: "Students in classroom session" },
+    { src: gallery8, alt: "MUMBSO group photo at campus gazebo" },
+    { src: gallery9, alt: "Certificate presentation ceremony" },
+    { src: gallery10, alt: "MUMBSO members outdoor group photo" },
+    { src: gallery11, alt: "Students in lab coats outdoor gathering" },
+    { src: gallery12, alt: "MUMBSO members campus group photo" },
   ];
 
   return (
