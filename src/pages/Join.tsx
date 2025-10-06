@@ -166,12 +166,12 @@ const Join = () => {
                       </span>
                     </div>
                     <p className="text-muted-foreground mb-4">{tier.description}</p>
-                    {tier.benefits && (
+                    {tier.benefits && Array.isArray(tier.benefits) && (
                       <ul className="space-y-2">
-                        {(tier.benefits as string[]).map((benefit, idx) => (
+                        {tier.benefits.map((benefit, idx) => (
                           <li key={idx} className="flex items-start gap-2 text-sm">
                             <Check className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                            <span>{benefit}</span>
+                            <span>{String(benefit)}</span>
                           </li>
                         ))}
                       </ul>
