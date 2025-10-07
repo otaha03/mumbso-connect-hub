@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Users, Mail, Phone, Lock } from "lucide-react";
 import membersBg from "@/assets/members-bg.jpg";
+import olilaProfile from "@/assets/olila-profile.jpg";
 import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { useAuth } from "@/hooks/useAuth";
 import { Badge } from "@/components/ui/badge";
@@ -72,8 +73,16 @@ const Members = () => {
             {leadership?.map((m: any) => (
               <Card key={m.id}>
                 <CardContent className="p-6 text-center">
-                  <div className="w-24 h-24 mx-auto mb-4 bg-gradient-hero rounded-full flex items-center justify-center text-white text-2xl font-bold">
-                    {m.name.charAt(0)}
+                  <div className="w-24 h-24 mx-auto mb-4 bg-gradient-hero rounded-full flex items-center justify-center text-white text-2xl font-bold overflow-hidden">
+                    {m.image_url ? (
+                      <img 
+                        src={m.name.toLowerCase().includes('olila') ? olilaProfile : m.image_url} 
+                        alt={m.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      m.name.charAt(0)
+                    )}
                   </div>
                   <h3 className="font-bold text-lg">{m.name}</h3>
                   <p className="text-primary text-sm mb-2">{m.position}</p>
