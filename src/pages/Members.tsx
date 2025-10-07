@@ -35,10 +35,10 @@ const Members = () => {
           .order("joined_at", { ascending: false });
         return data || [];
       } else {
-        // Non-admins use the public directory view (no contact info)
+        // Non-admins query without contact info columns (RLS enforces this at DB level)
         const { data } = await supabase
-          .from("community_members_directory")
-          .select("*")
+          .from("community_members")
+          .select("id, name, course, year_of_study, interests, joined_at")
           .order("joined_at", { ascending: false });
         return data || [];
       }
