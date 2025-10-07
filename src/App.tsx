@@ -16,7 +16,7 @@ import News from "./pages/News";
 import Gallery from "./pages/Gallery";
 import Join from "./pages/Join";
 import Auth from "./pages/Auth";
-import Blog from "./pages/Blog";
+import Contribution from "./pages/Contribution";
 import Dashboard from "./pages/Dashboard";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import NotFound from "./pages/NotFound";
@@ -43,7 +43,7 @@ const App = () => (
             <Route path="/contact" element={<Contact />} />
             <Route path="/join" element={<Join />} />
             <Route path="/auth" element={<Auth />} />
-            <Route path="/blog" element={<Blog />} />
+            <Route path="/contribution" element={<Contribution />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/payment-success" element={<PaymentSuccess />} />
             <Route path="*" element={<NotFound />} />

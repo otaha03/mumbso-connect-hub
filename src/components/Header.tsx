@@ -27,7 +27,7 @@ export const Header = () => {
     { path: "/research", label: "Research" },
     { path: "/events", label: "Events" },
     { path: "/members", label: "Members" },
-    { path: "/blog", label: "Blog" },
+    { path: "/contribution", label: "Contribution" },
     { path: "/constitution", label: "Constitution" },
     { path: "/news", label: "News" },
     { path: "/gallery", label: "Gallery" },
