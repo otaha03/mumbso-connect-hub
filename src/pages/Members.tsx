@@ -27,17 +27,21 @@ const Members = () => {
   const { data: community } = useQuery({
     queryKey: ["community_members", isAdmin],
     queryFn: async () => {
-      // Only select email and phone for admins
-      const columns = isAdmin 
-        ? "*" 
-        : "id, name, course, year_of_study, interests, joined_at";
-      
-      const { data } = await supabase
-        .from("community_members")
-        .select(columns)
-        .order("joined_at", { ascending: false });
-      
-      return data || [];
+      if (isAdmin) {
+        // Admins can see all data including contact info
+        const { data } = await supabase
+          .from("community_members")
+          .select("*")
+          .order("joined_at", { ascending: false });
+        return data || [];
+      } else {
+        // Non-admins use the public directory view (no contact info)
+        const { data } = await supabase
+          .from("community_members_directory")
+          .select("*")
+          .order("joined_at", { ascending: false });
+        return data || [];
+      }
     },
     enabled: !isAdminLoading && !!user, // Only fetch if user is authenticated
   });

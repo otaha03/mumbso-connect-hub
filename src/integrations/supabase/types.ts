@@ -529,7 +529,33 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      community_members_directory: {
+        Row: {
+          course: string | null
+          id: string | null
+          interests: string | null
+          joined_at: string | null
+          name: string | null
+          year_of_study: string | null
+        }
+        Insert: {
+          course?: string | null
+          id?: string | null
+          interests?: string | null
+          joined_at?: string | null
+          name?: string | null
+          year_of_study?: string | null
+        }
+        Update: {
+          course?: string | null
+          id?: string | null
+          interests?: string | null
+          joined_at?: string | null
+          name?: string | null
+          year_of_study?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       generate_membership_number: {
