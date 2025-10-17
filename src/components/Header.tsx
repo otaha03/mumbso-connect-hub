@@ -47,12 +47,12 @@ export const Header = () => {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex md:items-center md:gap-6">
+        <div className="hidden md:flex md:items-center md:gap-3 lg:gap-4">
           {navItems.map((item) => (
             <Link
               key={item.path}
               to={item.path}
-              className={`text-sm font-medium transition-colors hover:text-primary ${
+              className={`text-xs lg:text-sm font-medium transition-colors hover:text-primary whitespace-nowrap ${
                 isActive(item.path) ? "text-primary" : "text-foreground/60"
               }`}
             >
@@ -60,7 +60,7 @@ export const Header = () => {
             </Link>
           ))}
           <DarkModeToggle />
-          <Button variant="hero" size="sm" onClick={() => navigate("/join")}>
+          <Button variant="hero" size="sm" onClick={() => navigate("/join")} className="whitespace-nowrap">
             Join MUMBSO
           </Button>
           {user ? (
