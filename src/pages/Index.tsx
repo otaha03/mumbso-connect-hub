@@ -89,7 +89,7 @@ const Index = () => {
                 Empowering Future Biotechnology Leaders
               </h2>
               <p className="text-lg text-muted-foreground mb-6">
-                The Maseno University Molecular Biology Students Organization (MUMBSO) is the official student-run organization at Maseno University empowering the next generation of biotechnology researchers and innovators.
+                Maseno University Medical Biotechnology Student's Organization (MUMBSO) is the official student-run organization at Maseno University empowering the next generation of biotechnology researchers and innovators.
               </p>
               <p className="text-lg text-muted-foreground mb-8">
                 We bridge the gap between biotechnology and IT, focusing on research, education, community outreach, and career development. Our activities include workshops, research projects, guest lectures, conferences, internships, and community health initiatives.
