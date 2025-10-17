@@ -43,7 +43,7 @@ export const Header = () => {
             alt="MUMBSO Logo" 
             className="h-12 w-12 object-contain"
           />
-          <span className="hidden font-bold sm:inline-block">MUMBSO</span>
+          <span className="hidden font-bold sm:inline-block lg:text-base text-sm">Maseno University Molecular Biology Students Organization</span>
         </Link>
 
         {/* Desktop Navigation */}
